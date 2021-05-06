@@ -91,9 +91,10 @@ jobs:
         
     - name: 加载源,patch补丁和自定义设置
       run: |
-        chmod +x $diy_p1_sh
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
         cd openwrt
-        $GITHUB_WORKSPACE/$diy_p1_sh
+        $GITHUB_WORKSPACE/$DIY_P1_SH
         ./scripts/feeds clean && ./scripts/feeds update -a && ./scripts/feeds install -a
         chmod +x $diy_p2_sh
         cd openwrt
