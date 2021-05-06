@@ -91,12 +91,13 @@ jobs:
         
     - name: 加载源,patch补丁和自定义设置
       run: |
+        chmod +x $DIY_P1_SH
         cd openwrt
-        chmod +x $diy_p1_sh
-          /bin/bash $diy_p1_sh"
+        $GITHUB_WORKSPACE/$DIY_P1_SH
         ./scripts/feeds clean && ./scripts/feeds update -a && ./scripts/feeds install -a
-        chmod +x $diy_p2_sh
-          /bin/bash $diy_p2_sh"
+        chmod +x $DIY_P2_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P2_SH
         cp -Rf diy/* ./
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         
