@@ -103,7 +103,6 @@ jobs:
       
     - name: 加载设置、DIY2
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
@@ -166,7 +165,7 @@ jobs:
       if: steps.organizer.outputs.status == 'success' && env.UPLOAD_CONFIG == 'true'
       with:
         name: .config_${{matrix.target}}_${{ env.date }}
-        path:  ${{ env.CONFIG }}
+        path: openwrt/bin/config
 
     - name: 上传固件在github空间
       uses: actions/upload-artifact@v2
