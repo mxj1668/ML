@@ -50,7 +50,6 @@ jobs:
         source "${GITHUB_WORKSPACE}/settings.ini"
         echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
         echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
-        echo "FEEDS_CONF=${FEEDS_CONF}" >> $GITHUB_ENV
         echo "CONFIG_FILE=${CONFIG_FILE}" >> $GITHUB_ENV
         echo "WXFB_MESSAGE=${WXFB_MESSAGE}" >> $GITHUB_ENV
         echo "DIY_P1_SH=${DIY_P1_SH}" >> $GITHUB_ENV
@@ -92,7 +91,6 @@ jobs:
         
     - name: 加载源和DIY1
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
@@ -105,7 +103,6 @@ jobs:
       
     - name: 加载设置、DIY2
       run: |
-        [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
@@ -169,7 +166,7 @@ jobs:
       if: steps.organizer.outputs.status == 'success' && env.UPLOAD_CONFIG == 'true'
       with:
         name: .config_${{matrix.target}}_${{ env.date }}
-        path: ./config
+        path:  ${{ env.CONFIG }}
 
     - name: 上传固件在github空间
       uses: actions/upload-artifact@v2
