@@ -143,8 +143,7 @@ jobs:
       id: organizer
       run: |
         mkdir config
-        find openwrt/bin/targets/ -name "*config.
-        info*" | xargs -i mv -f {} config
+        find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
         cd openwrt/bin/targets/*/*
         rm -rf packages && mkdir packages
         find -name "*buildinfo*" | xargs -i mv -f {} packages
@@ -166,7 +165,7 @@ jobs:
       if: steps.organizer.outputs.status == 'success' && env.UPLOAD_CONFIG == 'true'
       with:
         name: .config_${{matrix.target}}_${{ env.date }}
-        path: openwrt/.config
+        path: ./config
 
     - name: 上传固件在github空间
       uses: actions/upload-artifact@v2
