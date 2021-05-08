@@ -103,13 +103,12 @@ jobs:
       
     - name: 加载设置、DIY2
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
         
     - name: SSH远程连接（运行到此必须刷新一次网页再等待代码展开,不能频繁刷新）
-      uses: danshui-git/debugger-action@master
+      uses: garypang13/debugger-action@master
       if: env.SSH_ACTIONS == 'true' || (github.event.inputs.ssh == 'ssh' && github.event.inputs.ssh  != 'false')
 
     - name: 下载软件包
